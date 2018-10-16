@@ -1,58 +1,85 @@
 import "@dojo/shim/Promise";
 import "./config";
 
-// import FeatureLayer from "esri/layers/FeatureLayer";
-import WebMap from "esri/WebMap";
+import Map from "esri/Map";
+import { Tab, Sidebar, Menu } from 'semantic-ui-react'
 
 import React from "react";
 import ReactDOM from "react-dom";
 
 import { Header } from "./app/components/header";
-import { WebMapComponent } from "./app/components/webmapview";
+import { MapComponent } from "./app/components/map";
 
 import "./css/main.scss";
 
-const addDOMNode = () => {
-  const appNode = document.createElement("div");
-  appNode.id = "app";
-  document.body.appendChild(appNode);
-  return appNode;
+class Main extends React.Component {
+  constructor(props) {
+      super(props);
+      this.state = {
+          sidebar_open: true
+      };
+  }
+
+  onComponentLoad(view) {
+    console.log(view);
+  }
+
+  componentWillMount() {
+    this.map = new Map({
+      basemap: "streets",
+      zoom: 10,
+      center: [40.61, -95.95]
+    });
+
+    this.panes = [
+      { menuItem: 'Tab 1', render: () => <Tab.Pane >Tab 1 Content</Tab.Pane> },
+      { menuItem: 'Tab 2', render: () => <Tab.Pane >Tab 2 Content</Tab.Pane> },
+      { menuItem: 'Tab 3', render: () => <Tab.Pane >Tab 3 Content</Tab.Pane> },
+    ]
+  }
+  
+  render() {
+    return (
+      <div className="main">
+        <Header 
+          fixed="top"
+          title="ArcGIS Webpack Plugin"
+          search={true}
+        />
+
+        <Sidebar.Pushable as={"div"} >
+
+          <Sidebar
+            id="main_sidebar"
+            visible={this.state.sidebar_open}
+            as={Menu}
+            direction="right"
+            animation="push"
+            width="wide"
+            icon="labeled"
+            vertical
+          >
+           
+           <Tab panes={this.panes} />
+
+          </Sidebar>
+
+          <Sidebar.Pusher className="sidebar_open" >
+
+            <MapComponent
+                map={this.map}
+                onload={this.onComponentLoad}
+            />
+
+          </Sidebar.Pusher>
+        </Sidebar.Pushable>
+
+      </div>
+    );
+  }
 }
 
-const onComponentLoad = (view) => {
-  // console.log(view);
-  // featureLayer.when(() => {
-  //   view.goTo({ target: featureLayer.fullExtent });
-  // });
-};
-
-// const featureLayer = new FeatureLayer({
-//   id: "states",
-//   portalItem: {
-//     id: "b234a118ab6b4c91908a1cf677941702"
-//   },
-//   outFields: ["NAME", "STATE_NAME", "VACANT", "HSE_UNITS"],
-//   title: "U.S. counties"
-// });
-
-const webmap = new WebMap({
-  portalItem: {
-    id: "3ff64504498c4e9581a7a754412b6a9e"
-  },
-  // layers: [featureLayer]
-});
-
-// console.log("Loading map");
-
-/**
- * React portion of application
- */
 ReactDOM.render(
-  <div className="main">
-    <Header appName="Webpack App"/>
-    <WebMapComponent
-      webmap={webmap}
-      onload={onComponentLoad} />
-  </div>,
+  <Main />,
   document.getElementById('root')
 );

@@ -1,6 +1,7 @@
 const ArcGISPlugin = require("@arcgis/webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const path = require("path");
 const webpack = require("webpack");
@@ -73,14 +74,20 @@ module.exports = {
   },
 
   plugins: [
+    new MiniCssExtractPlugin({
+        filename: 'css/[name].[contenthash].css'
+    }),
     HtmlWebpackPluginConfig,
+    // new HtmlWebpackPlugin({
+    //     filename: 'index.html',
+    //     chunks: ['index'],
+    //     // title: 'Hello world',
+    //     // description: 'Hello world',
+    //     // template: 'src/page-template.hbs'
+    // }),
+    new CleanWebpackPlugin('dist'),
     new ArcGISPlugin({
       useDefaultAssetLoaders: false
-    }),
-    new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css",
-      // filename: __dirname + "/dist/[name].css",
     })
   ],
 

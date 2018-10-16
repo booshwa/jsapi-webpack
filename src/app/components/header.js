@@ -1,15 +1,31 @@
 import React from "react";
 import { Menu, Input } from 'semantic-ui-react'
 
-const size = "small";
+export class Header extends React.Component {
 
-export const Header = (props) =>
-  <Menu fluid={true} id="site_header" size={size} inverted={true}>
-    <Menu.Item>
-      ESRI Webpack Demo
-    </Menu.Item>
-    <Menu.Item position="right" >
-    <Input icon='search' placeholder='Search' iconPosition='left' size={size} inverted={true} transparent={true} />
-    </Menu.Item>
-  </Menu>
-  
+  render_search() {
+    if (this.props.search) {
+      return (
+        <Menu.Item>
+          <Input icon='search' placeholder='Search' iconPosition='left' size={"small"} inverted={true} transparent={true} />
+        </Menu.Item>
+      )
+    } else {
+      return null;
+    }
+  }
+
+  render() {
+    return (
+      <Menu fluid={true} id="site_header" size={"small"} inverted={true}>
+        <Menu.Item>
+          {this.props.title}
+        </Menu.Item>
+
+        <Menu.Menu position='right'>
+          {this.render_search()}
+        </Menu.Menu>
+      </Menu>
+    );
+  }
+}

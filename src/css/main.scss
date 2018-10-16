@@ -15,6 +15,11 @@ html, body {
     height: 100%;
 }
 
+.pushable, .pusher {
+    height: 100%;
+    width: 100%;
+}
+
 .webmap {
     height: 100%;
     width: 100%;
@@ -28,4 +33,20 @@ html, body {
 
 #site_header .item:before {
     display: none;
+}
+
+.pusher.sidebar_open {
+    max-width: calc(100% - 350px);
+    float: right;
+}
+
+#main_sidebar {
+
+    > div:first-child {
+        height: 100%
+    }
+
+    .ui.bottom.attached.segment {
+        min-height: calc(100% - 50px);
+    }
 }
