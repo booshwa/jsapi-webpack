@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Input } from 'semantic-ui-react'
+import { Menu, Input, Icon } from 'semantic-ui-react'
 
 export class Header extends React.Component {
 
@@ -8,6 +8,22 @@ export class Header extends React.Component {
       return (
         <Menu.Item>
           <Input icon='search' placeholder='Search' iconPosition='left' size={"small"} inverted={true} transparent={true} />
+        </Menu.Item>
+      )
+    } else {
+      return null;
+    }
+  }
+
+  render_right_button() {
+    if (this.props.right_button) {
+      return (
+        <Menu.Item
+          name='Menu Toggle'
+          onClick={this.props.right_button.callback}
+          size={"small"} 
+        >
+          <Icon name='bars' />
         </Menu.Item>
       )
     } else {
@@ -24,6 +40,7 @@ export class Header extends React.Component {
 
         <Menu.Menu position='right'>
           {this.render_search()}
+          {this.render_right_button()}
         </Menu.Menu>
       </Menu>
     );

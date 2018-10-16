@@ -20,6 +20,11 @@ class Main extends React.Component {
       };
   }
 
+  sidebar_toggle() {
+    console.log("Sidebar toggled", this.state);
+    this.setState({sidebar_open: !this.state.sidebar_open});
+  }
+
   onComponentLoad(view) {
     console.log(view);
   }
@@ -45,6 +50,9 @@ class Main extends React.Component {
           fixed="top"
           title="ArcGIS Webpack Plugin"
           search={true}
+          right_button={{
+            callback: this.sidebar_toggle.bind(this)
+          }}
         />
 
         <Sidebar.Pushable as={"div"} >
@@ -64,7 +72,7 @@ class Main extends React.Component {
 
           </Sidebar>
 
-          <Sidebar.Pusher className="sidebar_open" >
+          <Sidebar.Pusher className={this.state.sidebar_open ? "sidebar_open" : ""} >
 
             <MapComponent
                 map={this.map}
