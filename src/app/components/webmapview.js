@@ -10,7 +10,7 @@ export class WebMapComponent extends React.Component {
     });
     this.props.onload(view);
   }
-
+   
   render() {
     return (
       <div className="webmap"
